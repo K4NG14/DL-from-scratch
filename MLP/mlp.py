@@ -2,21 +2,35 @@ import numpy as np
 from layer import Layer
 
 class  MLP:
-    def __init__(self, features, classes, hidden_layers):
+    def __init__(self, features, classes, hidden_layers, activations = None):
         self.features = features
         self.classes = classes
         self.hidden_layers = hidden_layers
+        self.activation = activations
+
+        if self.activation is not None:
+            if len(self.activation) != len(hidden_layers) - 1:
+                print("num of activations does not match with num of hidden layers. activations = hidden layers - 1")
+                self.activation = None
         
         self.layers = []
-        
+            
         self.layers.append(Layer(neurons=features, neurons_out=hidden_layers[0]))
         
         for i in range(len(hidden_layers) - 1):
-            self.layers.append(Layer(
+            if self.activation == None:
+                self.layers.append(Layer(
                 neurons=hidden_layers[i], 
                 activation="relu", 
                 neurons_out=hidden_layers[i + 1]
-            ))
+                ))
+            else:
+                self.layers.append(Layer(
+                neurons=hidden_layers[i], 
+                activation=self.activation[i], 
+                neurons_out=hidden_layers[i + 1]
+                ))
+            
         
         output_layer = hidden_layers[-1]
         self.layers.append(Layer(
