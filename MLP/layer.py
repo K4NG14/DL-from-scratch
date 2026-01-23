@@ -12,7 +12,7 @@ class Layer:
         self.activation_name = activation
         
         if neurons_out is not None:
-            self.weights = np.random.randn(neurons_out, neurons) * 0.01
+            self.weights = np.random.randn(neurons_out, neurons) * 0.1
             self.bias = np.zeros((neurons_out, 1))
         else:
             self.weights = None
@@ -93,10 +93,10 @@ if __name__ == "__main__":
     batch_size = 1000
     n_features = 4      
     n_classes = 2       
-    n_iterations = 1000
+    n_iterations = 100
     learning_rate = 0.1
     
-    centers = np.random.randn(n_features, n_classes) * 3
+    centers = np.random.randn(n_features, n_classes) * 2
     labels = np.random.randint(0, n_classes, batch_size)
     X_batch = centers[:, labels] + 0.5 * np.random.randn(n_features, batch_size)
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
         true_labels = np.argmax(y_one_hot, axis=0)
         accuracy = np.mean(predictions == true_labels) * 100
 
-        if iteration % 100 == 0:
+        if iteration % 10 == 0:
             print(f"\n--- Iteration {iteration }/{n_iterations} ---")
             print(f"Cost: {cost:.6f}")
             print(f"  Batch Precision: {accuracy:.2f}%")
